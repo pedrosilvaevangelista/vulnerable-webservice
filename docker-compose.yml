@@ -9,7 +9,6 @@ services:
       - "8080:80"
     volumes:
       - .:/var/www/html
-      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
       - /var/run/docker.sock:/var/run/docker.sock
     command: sh -c "echo '🛡️  Servidor Web Vulnerable iniciado, Invada Se for capaz!!!'; apache2-foreground"
     depends_on:
@@ -21,7 +20,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: vulnerable_db
+      MYSQL_DATABASE: azul_db
     volumes:
       - db_data:/var/lib/mysql
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql

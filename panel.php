@@ -3,7 +3,10 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 
-require_once __DIR__ . '/db.php';
+$mysqli = new mysqli("db", "root", "root", "azul_db");
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
 
 if (!isset($_SESSION['auth'])) {
     die("❌ Acesso negado! Faça login primeiro.");
@@ -28,16 +31,14 @@ if (isset($_POST['add'])) {
 
     // Vulnerável a SQLi
     $sql = "INSERT INTO clientes (nome, email, cpf, apolice, foto) VALUES ('$nome','$email','$cpf','$apolice','$foto')";
-    $exec_result = $pdo->exec($sql);
-    if ($exec_result !== false) {
+    if ($mysqli->query($sql)) {
         $message = "✅ Cliente adicionado!";
     } else {
-        $info = $pdo->errorInfo();
-        $message = "❌ Erro: " . $info[2];
+        $message = "❌ Erro: " . $mysqli->error;
     }
 }
 
-$result = $pdo->query("SELECT * FROM clientes");
+$result = $mysqli->query("SELECT * FROM clientes");
 ?>
 
 <!DOCTYPE html>
@@ -146,7 +147,7 @@ $result = $pdo->query("SELECT * FROM clientes");
             <th>Policy</th>
             <th>Photo</th>
         </tr>
-        <?php while ($row = $result->fetch(PDO::FETCH_ASSOC)): ?>
+        <?php while ($row = $result->fetch_assoc()): ?>
             <tr>
                 <td><?= htmlspecialchars($row['nome']) ?></td>
                 <td><?= htmlspecialchars($row['email']) ?></td>
@@ -187,4 +188,3 @@ $result = $pdo->query("SELECT * FROM clientes");
 </div>
 </body>
 </html>
-

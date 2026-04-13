@@ -1,7 +1,11 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/db.php';
+$mysqli = new mysqli("db", "root", "root", "azul_db");
+
+if ($mysqli->connect_error) {
+    die("Connection failed: " . $mysqli->connect_error);
+}
 
 $error = '';
 
@@ -11,9 +15,9 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
 
     // VULNERÁVEL A SQLi
     $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-    $result = $pdo->query($query);
+    $result = $mysqli->query($query);
 
-    if ($result && $result->fetch()) {
+    if ($result && $result->num_rows > 0) {
         $_SESSION['auth'] = true;
         header("Location: panel.php");
         exit();
@@ -99,4 +103,3 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     </div>
 </body>
 </html>
-

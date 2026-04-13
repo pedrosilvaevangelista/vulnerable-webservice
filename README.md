@@ -37,18 +37,17 @@ O sistema foi propositalmente configurado com as seguintes falhas:
 
 ## 🚀 Como Iniciar (Quick Start)
 
-Para subir o laboratório completo de forma rápida e segura, escolha o comando abaixo de acordo com seu sistema operacional. Estes comandos lidam automaticamente com a clonagem inicial ou atualização do repositório.
+Basta copiar e colar **um único comando** no seu terminal. Ele faz tudo automaticamente:
+> ✅ Clona o repositório (ou atualiza se já existir) · ✅ Inicia o Docker se estiver parado · ✅ Sobe o laboratório completo
 
-### 🪟 Windows (PowerShell 5.1 & 7+)
-Execute este comando no seu terminal do Windows:
+### 🪟 Windows (PowerShell)
 ```powershell
-if (!(Test-Path vulnerable-webservice)) { git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git }; cd vulnerable-webservice; git pull; docker compose down; docker compose up -d --build
+if (!(Test-Path vulnerable-webservice)) { git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git }; cd vulnerable-webservice; git pull; docker info *>$null; if (-not $?) { Start-Process "$env:ProgramFiles\Docker\Docker\Docker Desktop.exe"; Write-Host "`n⏳ Aguardando Docker iniciar..." -ForegroundColor Yellow; do { Start-Sleep 3; docker info *>$null } until ($?) }; docker compose down *>$null; docker compose up -d --build
 ```
 
-### 🍎🐧 Linux / macOS / Bash
-Execute este comando no seu terminal Unix:
+### 🐧 Linux / macOS
 ```bash
-[ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; docker compose down; docker compose up -d --build
+[ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; if ! docker info > /dev/null 2>&1; then echo "⏳ Aguardando Docker iniciar..."; sudo systemctl start docker; while ! docker info > /dev/null 2>&1; do sleep 3; done; fi; docker compose down 2>/dev/null; docker compose up -d --build
 ```
 
 ---

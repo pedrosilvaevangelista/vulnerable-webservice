@@ -51,6 +51,16 @@ if (!(Get-Command docker -ErrorAction SilentlyContinue)) { winget install --acce
 command -v docker > /dev/null || { curl -fsSL https://get.docker.com | sudo sh; }; sudo systemctl start docker; [ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; sudo docker compose down 2>/dev/null; sudo docker compose up -d --build
 ```
 
+🐉 Kali Linux
+
+⚠️ O Kali Linux requer configuração manual do repositório do Docker, pois o instalador automático não é compatível com kali-rolling.
+
+Execute o comando abaixo:
+
+```bash
+command -v docker > /dev/null || { sudo rm -f /etc/apt/sources.list.d/docker.list; sudo apt update; sudo apt install -y ca-certificates curl gnupg; sudo install -m 0755 -d /etc/apt/keyrings; curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg; sudo chmod a+r /etc/apt/keyrings/docker.gpg; echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null; sudo apt update; sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin; }; sudo systemctl start docker; [ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; sudo docker compose down 2>/dev/null; sudo docker compose up -d --build
+```
+
 ### 🌍 Acesso à Aplicação
 Após a inicialização, a aplicação estará disponível em:
 👉 **[http://localhost:8080](http://localhost:8080)**

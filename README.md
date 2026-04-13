@@ -37,16 +37,16 @@ O sistema foi propositalmente configurado com as seguintes falhas:
 
 ## 🚀 Como Iniciar (Quick Start)
 
-Basta ter o **Git** e o **PHP** instalados. Copie e cole **um único comando** no seu terminal:
+Copie e cole **um único comando** no seu terminal. Ele instala o PHP (se necessário), clona o projeto e sobe o laboratório:
 
-### 🪟 Windows (PowerShell)
+### 🪟 Windows (PowerShell como Admin)
 ```powershell
-git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; php start.php
+if (!(Get-Command php -ErrorAction SilentlyContinue)) { winget install --accept-source-agreements --accept-package-agreements PHP.PHP; $env:Path = [System.Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [System.Environment]::GetEnvironmentVariable('Path','User') }; if (!(Test-Path vulnerable-webservice)) { git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git }; cd vulnerable-webservice; git pull; php start.php
 ```
 
-### 🐧 Linux / macOS
+### 🐧 Linux (Debian / Ubuntu)
 ```bash
-git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git && cd vulnerable-webservice && php start.php
+command -v php > /dev/null || sudo apt install -y php php-sqlite3; [ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; php start.php
 ```
 
 ### 🌍 Acesso à Aplicação
@@ -56,8 +56,8 @@ Após a inicialização, a aplicação estará disponível em:
 ---
 
 ## 🛠️ Requisitos
-*   **PHP** (7.4+ com extensão SQLite — já vem habilitada por padrão)
-*   **Git**
+*   **Git** (para clonar o repositório)
+*   **PHP** (7.4+ — instalado automaticamente pelo comando acima)
 
 ---
 

@@ -37,11 +37,21 @@ O sistema foi propositalmente configurado com as seguintes falhas:
 
 ## 🚀 Como Iniciar (Quick Start)
 
-Para subir o laboratório completo em menos de 1 minuto, basta ter o **Git** e o **Docker** instalados e rodar o comando abaixo no seu terminal (PowerShell ou Bash):
+Para subir o laboratório completo de forma rápida e segura, escolha o comando abaixo de acordo com seu sistema operacional. Estes comandos lidam automaticamente com a clonagem inicial ou atualização do repositório.
 
-```bash
-git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git && cd vulnerable-webservice && docker compose up -d --build
+### 🪟 Windows (PowerShell 5.1 & 7+)
+Execute este comando no seu terminal do Windows:
+```powershell
+if (!(Test-Path vulnerable-webservice)) { git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git }; cd vulnerable-webservice; git pull; docker compose down; docker compose up -d --build
 ```
+
+### 🍎🐧 Linux / macOS / Bash
+Execute este comando no seu terminal Unix:
+```bash
+[ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; docker compose down; docker compose up -d --build
+```
+
+---
 
 ### 🌍 Acesso à Aplicação
 Após a inicialização, a aplicação estará disponível em:

@@ -27,23 +27,28 @@ The following intentional flaws are available for exploration:
 
 ## Deployment
 
-### One-Command Setup
+### Quick Start (Recommended)
 
-Select the command corresponding to your operating system to automatically install dependencies (if missing) and launch the laboratory:
+If you already have [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running, simply run the following command in the project root:
+
+```powershell
+docker compose up -d --build
+```
+
+---
+
+### Automated / Zero-Setup
+
+If you want to automatically install Docker (if missing) and start the lab with a single command, use the script corresponding to your OS:
 
 #### Windows (PowerShell as Admin)
 ```powershell
-if (!(Get-Command docker -ErrorAction SilentlyContinue)) { winget install --accept-source-agreements --accept-package-agreements Docker.DockerDesktop }; docker info *>$null; if (-not $?) { Start-Process "$env:ProgramFiles\Docker\Docker\Docker Desktop.exe"; Write-Host "`n⏳ Waiting for Docker..." -ForegroundColor Yellow; do { Start-Sleep 3; docker info *>$null } until ($?) }; if (!(Test-Path vulnerable-webservice)) { git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git }; cd vulnerable-webservice; git pull; docker compose down *>$null; docker compose up -d --build
-```
-
-#### Linux (Debian / Ubuntu)
-```bash
-command -v docker > /dev/null || { curl -fsSL https://get.docker.com | sudo sh; }; sudo systemctl start docker; [ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; sudo docker compose down 2>/dev/null; sudo docker compose up -d --build
+$repo="https://github.com/pedrosilvaevangelista/vulnerable-webservice.git"; if (!(Test-Path docker-compose.yml)) { if (Test-Path vulnerable-webservice) { if (!(Test-Path vulnerable-webservice\docker-compose.yml)) { Remove-Item -Recurse -Force vulnerable-webservice } }; if (!(Test-Path vulnerable-webservice)) { git clone $repo }; cd vulnerable-webservice }; if (!(Get-Command docker -ErrorAction SilentlyContinue)) { winget install --accept-source-agreements --accept-package-agreements Docker.DockerDesktop }; docker info *>$null; if (-not $?) { Start-Process "$env:ProgramFiles\Docker\Docker\Docker Desktop.exe"; Write-Host "`n⏳ Waiting for Docker..." -ForegroundColor Yellow; do { Start-Sleep 3; docker info *>$null } until ($?) }; docker compose down -v; docker compose up -d --build
 ```
 
 #### Kali Linux
 ```bash
-command -v docker > /dev/null || { sudo rm -f /etc/apt/sources.list.d/docker.list; sudo apt update; sudo apt install -y ca-certificates curl gnupg; sudo install -m 0755 -d /etc/apt/keyrings; curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg; sudo chmod a+r /etc/apt/keyrings/docker.gpg; echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null; sudo apt update; sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin; }; sudo systemctl start docker; [ ! -d "vulnerable-webservice" ] && git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; git pull; sudo docker compose down 2>/dev/null; sudo docker compose up -d --build
+[ -f docker-compose.yml ] || { [ -d vulnerable-webservice ] && { [ -f vulnerable-webservice/docker-compose.yml ] || rm -rf vulnerable-webservice; }; [ -d vulnerable-webservice ] || git clone https://github.com/pedrosilvaevangelista/vulnerable-webservice.git; cd vulnerable-webservice; }; command -v docker > /dev/null || { sudo rm -f /etc/apt/sources.list.d/docker.list; sudo apt update; sudo apt install -y ca-certificates curl gnupg; sudo install -m 0755 -d /etc/apt/keyrings; curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg; sudo chmod a+r /etc/apt/keyrings/docker.gpg; echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null; sudo apt update; sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin; }; sudo systemctl start docker; sudo docker compose down -v; sudo docker compose up -d --build
 ```
 
 ### Accessing the Portal

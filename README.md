@@ -1,6 +1,6 @@
 # Seguros Confiáveis - Offensive Security Laboratory
 
-![Seguros Confiáveis Banner](assets/img/banner.png)
+![Seguros Confiáveis Banner](assets/img/readmeimage.png)
 
 ## Overview
 

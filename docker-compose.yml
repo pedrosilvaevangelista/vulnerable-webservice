@@ -19,10 +19,10 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: azul_db
+      MYSQL_DATABASE: confiavel_db
     volumes:
       - db_data:/var/lib/mysql
-      - ./db.sql:/docker-entrypoint-initdb.d/db.sql
+      - ./infra/db.sql:/docker-entrypoint-initdb.d/db.sql
     networks:
       - lab_network
 

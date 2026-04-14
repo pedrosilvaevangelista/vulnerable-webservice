@@ -1,10 +1,9 @@
 <?php
-session_start();
+require_once 'includes/db.php';
 
-$mysqli = new mysqli("db", "root", "root", "azul_db");
-
-if ($mysqli->connect_error) {
-    die("Connection failed: " . $mysqli->connect_error);
+if (isLoggedIn()) {
+    header("Location: dashboard.php");
+    exit();
 }
 
 $error = '';
@@ -13,93 +12,85 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // VULNERÁVEL A SQLi
+    // VULNERÁVEL: SQL Injection (Login Bypass)
     $query = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
     $result = $mysqli->query($query);
 
     if ($result && $result->num_rows > 0) {
+        $user = $result->fetch_assoc();
         $_SESSION['auth'] = true;
-        header("Location: panel.php");
+        $_SESSION['user'] = $user['full_name'];
+        $_SESSION['role'] = $user['role'];
+        header("Location: dashboard.php");
         exit();
     } else {
-        $error = "Invalid credentials!";
+        $error = "Credenciais inválidas. Verifique seu ID corporativo e senha.";
     }
 }
 ?>
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
-    <title>Vulnerable Web Service - Login</title>
-    <style>
-        body {
-            background-color: #121212;
-            color: #f0f0f0;
-            font-family: Arial, sans-serif;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-box {
-            background-color: #1e1e1e;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px #ff3333;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        .login-box img {
-            max-width: 100px;
-            margin-bottom: 20px;
-        }
-        .login-box h1 {
-            margin-bottom: 20px;
-            color: #ff3333;
-        }
-        .login-box input[type="text"],
-        .login-box input[type="password"] {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 6px;
-            background-color: #2c2c2c;
-            color: white;
-        }
-        .login-box input[type="submit"] {
-            background-color: #ff3333;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .login-box input[type="submit"]:hover {
-            background-color: #cc0000;
-        }
-        .error {
-            margin-top: 15px;
-            color: #ff6666;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Seguros Confiáveis</title>
+    <link rel="icon" type="image/png" href="assets/img/favicon.png">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
-    <div class="login-box">
-        <img src="assets/logo.png" alt="Logo">
-        <h1>Vulnerable Web Service</h1>
-        <form method="POST">
-            <input type="text" name="username" placeholder="Username" required><br>
-            <input type="password" name="password" placeholder="Password" required><br>
-            <input type="submit" value="Login">
-        </form>
-        <?php if ($error): ?>
-            <div class="error"><?= htmlspecialchars($error) ?></div>
-        <?php endif; ?>
+    <div class="auth-page">
+        <div class="auth-visual">
+            <h2>Seguros Confiáveis</h2>
+            <p>Plataforma corporativa de gestão de apólices, sinistros e clientes. Acesso restrito a colaboradores
+                autorizados.</p>
+        </div>
+
+        <div class="auth-form-side">
+            <div class="auth-form-container">
+                <div class="auth-logo">
+                    <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
+                    <div>
+                        <h1>Seguros Confiáveis</h1>
+                        <span>Portal Corporativo v3.2.1</span>
+                    </div>
+                </div>
+
+                <?php if ($error): ?>
+                    <div class="alert alert-error">
+                        <i class="fas fa-circle-exclamation"></i> <?= htmlspecialchars($error) ?>
+                    </div>
+                <?php endif; ?>
+
+                <form method="POST">
+                    <div class="form-group">
+                        <label class="form-label">ID Corporativo</label>
+                        <input type="text" name="username" class="form-input" placeholder="usuário ou e-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Senha</label>
+                        <input type="password" name="password" class="form-input" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary"
+                        style="width: 100%; padding: 0.75rem; font-size: 0.9rem;">
+                        <i class="fas fa-arrow-right-to-bracket"></i> Entrar no Sistema
+                    </button>
+                </form>
+
+                <div
+                    style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); text-align: center;">
+                    <h1
+                        style="color: var(--primary-color); font-size: 1.75rem; letter-spacing: -0.05em; margin-bottom: 0.5rem;">
+                        SEGUROS CONFIÁVEIS</h1>
+                    Sistema de uso interno. Acesso monitorado.<br>
+                    IP registrado: <?= $_SERVER['REMOTE_ADDR'] ?>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>

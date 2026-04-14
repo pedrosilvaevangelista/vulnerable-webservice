@@ -1,12 +1,12 @@
-# 🛡️ Vulnerable Web Service (Basic Pentest Lab)
+# 🛡️ Seguros Confiáveis (Offensive Security Lab)
 
 <p align="center">
-  <img src="assets/logo.png" alt="Vulnerable Web Service Logo" width="200">
+  <img src="assets/img/shield_logo.png" alt="Seguros Confiáveis Logo" width="180">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Dificuldade-2%2F10-green" alt="Dificuldade">
-  <img src="https://img.shields.io/badge/Ambiente-Controlado-blue" alt="Ambiente">
+  <img src="https://img.shields.io/badge/Dificuldade-3%2F10-orange" alt="Dificuldade">
+  <img src="https://img.shields.io/badge/Ambiente-Enterprise%20Vulnerable-blue" alt="Ambiente">
   <img src="https://img.shields.io/badge/Tecnologias-Docker%2C%20PHP%2C%20MySQL-orange" alt="Techs">
   <img src="https://img.shields.io/badge/Seguran%C3%A7a-Insecure%20by%20Design-red" alt="Security">
 </p>
@@ -26,14 +26,16 @@ O ambiente roda **100% isolado via Docker**, garantindo que nenhuma vulnerabilid
 
 ---
 
-## ⚠️ Vulnerabilidades Incluídas
+## ⚠️ Vulnerabilidades Incluídas (Vulnerable by Design)
 
-O sistema foi propositalmente configurado com as seguintes falhas:
+O sistema foi propositalmente configurado com as seguintes falhas críticas para treinamento:
 
-*   💉 **SQL Injection (Login Bypass):** Autenticação vulnerável que permite acesso sem senha.
-*   📂 **Insecure File Upload:** Permite o upload de scripts maliciosos (Webshells).
-*   🔐 **Weak Authentication:** Políticas de senha e sessão fragilizadas.
-*   🛠️ **Insecure Configurations:** Má configuração de servidor e banco de dados.
+*   💉 **SQL Injection (Login Bypass):** Autenticação vulnerável no portal de login.
+*   📊 **SQL Injection (UNION-based):** Extração de dados sensíveis via busca de apólices.
+*   📂 **Local File Inclusion (LFI):** Acesso a arquivos do sistema via visualizador de logs.
+*   📤 **Insecure File Upload:** Permite o upload de scripts não autorizados (Webshells).
+*   🌐 **Cross-Site Scripting (XSS):** Refletido na busca e armazenado no registro de clientes.
+*   🚪 **Information Disclosure:** Vazamento de detalhes técnicos do servidor nas configurações.
 
 ---
 

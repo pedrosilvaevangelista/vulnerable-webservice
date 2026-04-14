@@ -1,0 +1,9 @@
+POLÍTICA DE USO E TERMOS DE SEGURANÇA - SEGUROS CONFIÁVEIS S.A.
+
+1. Este sistema é de uso exclusivo para funcionários autorizados da Seguros Confiáveis S.A.
+2. Todo o acesso é monitorado e registrado para fins de auditoria e conformidade.
+3. A guarda das credenciais de acesso é de responsabilidade individual de cada colaborador.
+4. É proibida a extração de dados de clientes para fins externos sem autorização prévia da diretoria técnica.
+5. Em caso de suspeita de atividade anômala, o incidente deve ser reportado imediatamente ao time de infraestrutura.
+
+v3.2.1 - 2026 Seguros Confiáveis S.A.

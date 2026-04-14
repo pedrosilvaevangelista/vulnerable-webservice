@@ -1,14 +1,14 @@
 <?php
 $pageTitle = "Configurações";
-require_once 'includes/db.php';
-if (!isLoggedIn()) { header("Location: index.php"); exit(); }
+require_once '../includes/db.php';
+if (!isLoggedIn()) { header("Location: ../index.php"); exit(); }
 
 // VULNERÁVEL: Information Disclosure (vazamento de info de servidor)
 // Expor informações é intencional aqui.
 
-include 'includes/layout/header.php';
-include 'includes/layout/sidebar.php';
-include 'includes/layout/topbar.php';
+include '../includes/layout/header.php';
+include '../includes/layout/sidebar.php';
+include '../includes/layout/topbar.php';
 ?>
 
 <div class="settings-grid">
@@ -78,4 +78,4 @@ include 'includes/layout/topbar.php';
     </div>
 </div>
 
-<?php include 'includes/layout/footer.php'; ?>
+<?php include '../includes/layout/footer.php'; ?>

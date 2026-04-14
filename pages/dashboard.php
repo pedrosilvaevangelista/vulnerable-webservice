@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Dashboard";
-require_once 'includes/db.php';
-if (!isLoggedIn()) { header("Location: index.php"); exit(); }
+require_once '../includes/db.php';
+if (!isLoggedIn()) { header("Location: ../index.php"); exit(); }
 
 // Stats
 $total_clientes = $mysqli->query("SELECT COUNT(*) as c FROM clientes")->fetch_assoc()['c'];
@@ -13,9 +13,9 @@ $sinistros = $mysqli->query("SELECT COUNT(*) as c FROM apolices WHERE status='Si
 $recent = $mysqli->query("SELECT a.codigo, a.tipo, a.status, a.premio_mensal, c.nome 
     FROM apolices a JOIN clientes c ON a.cliente_id = c.id ORDER BY a.id DESC LIMIT 8");
 
-include 'includes/layout/header.php';
-include 'includes/layout/sidebar.php';
-include 'includes/layout/topbar.php';
+include '../includes/layout/header.php';
+include '../includes/layout/sidebar.php';
+include '../includes/layout/topbar.php';
 ?>
 
 <div class="stats-row">
@@ -74,4 +74,4 @@ include 'includes/layout/topbar.php';
     </div>
 </div>
 
-<?php include 'includes/layout/footer.php'; ?>
+<?php include '../includes/layout/footer.php'; ?>

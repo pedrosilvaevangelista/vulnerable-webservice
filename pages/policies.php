@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Apólices";
-require_once 'includes/db.php';
-if (!isLoggedIn()) { header("Location: index.php"); exit(); }
+require_once '../includes/db.php';
+if (!isLoggedIn()) { header("Location: ../index.php"); exit(); }
 
 $search = $_GET['q'] ?? '';
 $filter = $_GET['status'] ?? '';
@@ -17,9 +17,9 @@ if ($filter) {
 $sql .= " ORDER BY a.id DESC";
 $result = $mysqli->query($sql);
 
-include 'includes/layout/header.php';
-include 'includes/layout/sidebar.php';
-include 'includes/layout/topbar.php';
+include '../includes/layout/header.php';
+include '../includes/layout/sidebar.php';
+include '../includes/layout/topbar.php';
 ?>
 
 <?php if ($search): ?>
@@ -89,4 +89,4 @@ include 'includes/layout/topbar.php';
     </div>
 </div>
 
-<?php include 'includes/layout/footer.php'; ?>
+<?php include '../includes/layout/footer.php'; ?>

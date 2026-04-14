@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Clientes";
-require_once 'includes/db.php';
-if (!isLoggedIn()) { header("Location: index.php"); exit(); }
+require_once '../includes/db.php';
+if (!isLoggedIn()) { header("Location: ../index.php"); exit(); }
 
 $message = '';
 
@@ -15,7 +15,7 @@ if (isset($_POST['add_customer'])) {
 
     $foto = '';
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
-        $upload_dir = __DIR__ . "/storage/uploads/";
+        $upload_dir = __DIR__ . "/../storage/uploads/";
         $name = basename($_FILES['foto']['name']);
         $tmp = $_FILES['foto']['tmp_name'];
         // VULNERÁVEL: Insecure File Upload (sem validação de extensão)
@@ -35,9 +35,9 @@ if (isset($_POST['add_customer'])) {
 
 $clientes = $mysqli->query("SELECT * FROM clientes ORDER BY id DESC");
 
-include 'includes/layout/header.php';
-include 'includes/layout/sidebar.php';
-include 'includes/layout/topbar.php';
+include '../includes/layout/header.php';
+include '../includes/layout/sidebar.php';
+include '../includes/layout/topbar.php';
 ?>
 
 <?php if ($message): 
@@ -76,7 +76,10 @@ include 'includes/layout/topbar.php';
                                     <?php if ($c['foto']): 
                                         $is_external = (strpos($c['foto'], 'http') === 0);
                                         $is_assets = (strpos($c['foto'], 'assets/') === 0);
-                                        $foto_path = ($is_external || $is_assets) ? $c['foto'] : "storage/uploads/" . $c['foto'];
+                                        $foto_path = ($is_external) ? $c['foto'] : "../" . $c['foto'];
+                                        if (!$is_external && strpos($c['foto'], 'assets/') === false) {
+                                            $foto_path = "../storage/uploads/" . $c['foto'];
+                                        }
                                     ?>
                                         <img src="<?= htmlspecialchars($foto_path) ?>" class="avatar-sm" onerror="this.style.display='none'">
                                     <?php endif; ?>
@@ -93,7 +96,10 @@ include 'includes/layout/topbar.php';
                                 <?php if ($c['foto']): 
                                     $is_external = (strpos($c['foto'], 'http') === 0);
                                     $is_assets = (strpos($c['foto'], 'assets/') === 0);
-                                    $foto_link = ($is_external || $is_assets) ? $c['foto'] : "storage/uploads/" . $c['foto'];
+                                    $foto_link = ($is_external) ? $c['foto'] : "../" . $c['foto'];
+                                    if (!$is_external && strpos($c['foto'], 'assets/') === false) {
+                                        $foto_link = "../storage/uploads/" . $c['foto'];
+                                    }
                                 ?>
                                     <a href="<?= htmlspecialchars($foto_link) ?>" target="_blank" class="btn btn-outline btn-sm">
                                         <i class="fas fa-eye"></i>
@@ -154,4 +160,4 @@ include 'includes/layout/topbar.php';
     </div>
 </div>
 
-<?php include 'includes/layout/footer.php'; ?>
+<?php include '../includes/layout/footer.php'; ?>

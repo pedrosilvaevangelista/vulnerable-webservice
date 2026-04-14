@@ -2,7 +2,7 @@
 require_once 'includes/db.php';
 
 if (isLoggedIn()) {
-    header("Location: dashboard.php");
+    header("Location: pages/dashboard.php");
     exit();
 }
 
@@ -21,7 +21,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         $_SESSION['auth'] = true;
         $_SESSION['user'] = $user['full_name'];
         $_SESSION['role'] = $user['role'];
-        header("Location: dashboard.php");
+        header("Location: pages/dashboard.php");
         exit();
     } else {
         $error = "Credenciais inválidas. Verifique seu ID corporativo e senha.";
